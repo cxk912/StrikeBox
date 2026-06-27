@@ -1,5 +1,5 @@
 #define AppName "StrikeBox"
-#define AppVersion "1.0.0"
+#define AppVersion "1.1.0"
 #define AppPublisher "StrikeBox"
 #define AppURL "https://github.com/cxk912/StrikeBox"
 #define AppExeName "StrikeBox.exe"
