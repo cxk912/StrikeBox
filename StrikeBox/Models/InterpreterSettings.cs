@@ -2,25 +2,45 @@ namespace StrikeBox.Models;
 
 public sealed class InterpreterSettings
 {
-    public string Python { get; set; } = string.Empty;
-    public string Java8 { get; set; } = string.Empty;
-    public string Java11 { get; set; } = string.Empty;
-    public string Java17 { get; set; } = string.Empty;
+    /// <summary>
+    /// Python 解释器列表，用户可自定义版本名和路径
+    /// </summary>
+    public List<InterpreterEntry> PythonInterpreters { get; set; } = new();
+
+    /// <summary>
+    /// Java 解释器列表，用户可自定义版本名和路径
+    /// </summary>
+    public List<InterpreterEntry> JavaInterpreters { get; set; } = new();
+
+    /// <summary>
+    /// 根据版本标识获取 Python 路径。
+    /// 未指定版本时返回列表中第一个可用路径。
+    /// </summary>
+    public string? GetPythonPath(string? version)
+    {
+        if (!string.IsNullOrWhiteSpace(version))
+        {
+            var entry = PythonInterpreters.FirstOrDefault(
+                p => p.Version.Equals(version, StringComparison.OrdinalIgnoreCase));
+            if (entry != null && !string.IsNullOrWhiteSpace(entry.Path))
+                return entry.Path;
+        }
+        return PythonInterpreters.FirstOrDefault()?.Path;
+    }
 
     /// <summary>
     /// 根据版本标识获取 Java 路径。
-    /// 未指定版本时自动选择：Java17 > Java11 > Java8。
+    /// 未指定版本时返回列表中第一个可用路径。
     /// </summary>
-    public string GetJavaPath(string? version)
+    public string? GetJavaPath(string? version)
     {
-        return version switch
+        if (!string.IsNullOrWhiteSpace(version))
         {
-            "Java8" => Java8,
-            "Java11" => Java11,
-            "Java17" => Java17,
-            _ => !string.IsNullOrWhiteSpace(Java17) ? Java17 :
-                 !string.IsNullOrWhiteSpace(Java11) ? Java11 :
-                 Java8
-        };
+            var entry = JavaInterpreters.FirstOrDefault(
+                j => j.Version.Equals(version, StringComparison.OrdinalIgnoreCase));
+            if (entry != null && !string.IsNullOrWhiteSpace(entry.Path))
+                return entry.Path;
+        }
+        return JavaInterpreters.FirstOrDefault()?.Path;
     }
 }

@@ -5,7 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              mc:Ignorable="d"
-             d:DesignHeight="600" d:DesignWidth="800">
+             d:DesignHeight="700" d:DesignWidth="800">
 
     <Grid Margin="24">
         <Grid.RowDefinitions>
@@ -14,132 +14,225 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <!-- 顶部标题 -->
         <TextBlock Grid.Row="0"
                    Text="设置"
                    FontSize="22"
                    FontWeight="SemiBold"
                    Margin="0,0,0,16" />
 
-        <!-- 设置表单 -->
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
             <StackPanel>
-                <!-- 解释器配置区域 -->
+
+                <!-- ═══════ 解释器配置 ═══════ -->
+                <TextBlock Text="解释器配置"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           Margin="0,0,0,12" />
+
+                <!-- ═══ Python ═══ -->
                 <Border Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
                         BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
                         BorderThickness="1"
                         CornerRadius="8"
-                        Padding="24"
+                        Padding="20"
                         Margin="0,0,0,20">
                     <StackPanel>
-                        <!-- 区域标题 -->
-                        <TextBlock Text="解释器配置"
-                                   FontSize="16"
-                                   FontWeight="SemiBold"
-                                   Margin="0,0,0,16" />
-
-                        <Separator Margin="0,0,0,20"
-                                   Background="{ui:ThemeResource CardStrokeColorDefaultBrush}" />
-
-                        <!-- Python -->
                         <TextBlock Text="Python"
-                                   FontSize="14"
+                                   FontSize="15"
                                    FontWeight="SemiBold"
-                                   Margin="0,0,0,10" />
+                                   Margin="0,0,0,12" />
 
-                        <Separator Margin="0,0,0,14"
+                        <!-- 已配置的 Python 列表 -->
+                        <ItemsControl ItemsSource="{Binding PythonInterpreters}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="{ui:ThemeResource CardBackgroundFillColorSecondaryBrush}"
+                                            CornerRadius="6"
+                                            Padding="12,8"
+                                            Margin="0,0,0,8">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="120" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Text="{Binding Version}"
+                                                       FontSize="13"
+                                                       FontWeight="SemiBold"
+                                                       VerticalAlignment="Center" />
+
+                                            <ui:TextBox Grid.Column="1"
+                                                        Text="{Binding Path, UpdateSourceTrigger=PropertyChanged}"
+                                                        PlaceholderText="解释器路径..."
+                                                        Margin="8,0" />
+
+                                            <ui:Button Grid.Column="2"
+                                                       Content="浏览"
+                                                       Appearance="Secondary"
+                                                       FontSize="12"
+                                                       Padding="8,4"
+                                                       Command="{Binding DataContext.BrowsePythonEntryCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                       CommandParameter="{Binding}" />
+
+                                            <ui:Button Grid.Column="3"
+                                                       Content="✕"
+                                                       Appearance="Danger"
+                                                       FontSize="12"
+                                                       Padding="6,4"
+                                                       Margin="4,0,0,0"
+                                                       Command="{Binding DataContext.RemovePythonInterpreterCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                       CommandParameter="{Binding}" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <!-- 新增 Python -->
+                        <Separator Margin="0,4,0,12"
                                    Background="{ui:ThemeResource CardStrokeColorDefaultBrush}" />
 
-                        <Grid Margin="0,0,0,24">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="解释器路径"
-                                       VerticalAlignment="Center"
-                                       Margin="0,0,12,0"
-                                       FontSize="13" />
-                            <ui:TextBox Grid.Column="1"
-                                        Text="{Binding PythonPath, UpdateSourceTrigger=PropertyChanged}"
-                                        PlaceholderText="选择 python.exe 路径..." />
-                            <ui:Button Grid.Column="2"
-                                       Content="浏览"
-                                       Margin="8,0,0,0"
-                                       Command="{Binding BrowsePythonCommand}" />
-                        </Grid>
-
-                        <!-- Java -->
-                        <TextBlock Text="Java"
-                                   FontSize="14"
-                                   FontWeight="SemiBold"
-                                   Margin="0,0,0,10" />
-
-                        <Separator Margin="0,0,0,14"
-                                   Background="{ui:ThemeResource CardStrokeColorDefaultBrush}" />
-
-                        <!-- Java 8 -->
-                        <Grid Margin="0,0,0,16">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="60" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="Java 8"
-                                       VerticalAlignment="Center"
-                                       FontSize="13" />
-                            <ui:TextBox Grid.Column="1"
-                                        Text="{Binding Java8Path, UpdateSourceTrigger=PropertyChanged}"
-                                        PlaceholderText="选择 java.exe 路径..." />
-                            <ui:Button Grid.Column="2"
-                                       Content="浏览"
-                                       Margin="8,0,0,0"
-                                       Command="{Binding BrowseJava8Command}" />
-                        </Grid>
-
-                        <!-- Java 11 -->
-                        <Grid Margin="0,0,0,16">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="60" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="Java 11"
-                                       VerticalAlignment="Center"
-                                       FontSize="13" />
-                            <ui:TextBox Grid.Column="1"
-                                        Text="{Binding Java11Path, UpdateSourceTrigger=PropertyChanged}"
-                                        PlaceholderText="选择 java.exe 路径..." />
-                            <ui:Button Grid.Column="2"
-                                       Content="浏览"
-                                       Margin="8,0,0,0"
-                                       Command="{Binding BrowseJava11Command}" />
-                        </Grid>
-
-                        <!-- Java 17 -->
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="60" />
+                                <ColumnDefinition Width="120" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="Java 17"
-                                       VerticalAlignment="Center"
-                                       FontSize="13" />
+
+                            <ui:TextBox Text="{Binding NewPythonVersion, UpdateSourceTrigger=PropertyChanged}"
+                                        PlaceholderText="版本名"
+                                        FontSize="13" />
+
                             <ui:TextBox Grid.Column="1"
-                                        Text="{Binding Java17Path, UpdateSourceTrigger=PropertyChanged}"
-                                        PlaceholderText="选择 java.exe 路径..." />
+                                        Text="{Binding NewPythonPath, UpdateSourceTrigger=PropertyChanged}"
+                                        PlaceholderText="python.exe 路径..."
+                                        Margin="8,0" />
+
                             <ui:Button Grid.Column="2"
                                        Content="浏览"
-                                       Margin="8,0,0,0"
-                                       Command="{Binding BrowseJava17Command}" />
+                                       Appearance="Secondary"
+                                       FontSize="12"
+                                       Padding="8,4"
+                                       Command="{Binding BrowseNewPythonPathCommand}" />
+
+                            <ui:Button Grid.Column="3"
+                                       Content="添加"
+                                       Appearance="Primary"
+                                       FontSize="12"
+                                       Padding="8,4"
+                                       Margin="4,0,0,0"
+                                       Command="{Binding AddPythonInterpreterCommand}" />
                         </Grid>
                     </StackPanel>
                 </Border>
+
+                <!-- ═══ Java ═══ -->
+                <Border Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="8"
+                        Padding="20"
+                        Margin="0,0,0,20">
+                    <StackPanel>
+                        <TextBlock Text="Java"
+                                   FontSize="15"
+                                   FontWeight="SemiBold"
+                                   Margin="0,0,0,12" />
+
+                        <!-- 已配置的 Java 列表 -->
+                        <ItemsControl ItemsSource="{Binding JavaInterpreters}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="{ui:ThemeResource CardBackgroundFillColorSecondaryBrush}"
+                                            CornerRadius="6"
+                                            Padding="12,8"
+                                            Margin="0,0,0,8">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="120" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Text="{Binding Version}"
+                                                       FontSize="13"
+                                                       FontWeight="SemiBold"
+                                                       VerticalAlignment="Center" />
+
+                                            <ui:TextBox Grid.Column="1"
+                                                        Text="{Binding Path, UpdateSourceTrigger=PropertyChanged}"
+                                                        PlaceholderText="解释器路径..."
+                                                        Margin="8,0" />
+
+                                            <ui:Button Grid.Column="2"
+                                                       Content="浏览"
+                                                       Appearance="Secondary"
+                                                       FontSize="12"
+                                                       Padding="8,4"
+                                                       Command="{Binding DataContext.BrowseJavaEntryCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                       CommandParameter="{Binding}" />
+
+                                            <ui:Button Grid.Column="3"
+                                                       Content="✕"
+                                                       Appearance="Danger"
+                                                       FontSize="12"
+                                                       Padding="6,4"
+                                                       Margin="4,0,0,0"
+                                                       Command="{Binding DataContext.RemoveJavaInterpreterCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                       CommandParameter="{Binding}" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <!-- 新增 Java -->
+                        <Separator Margin="0,4,0,12"
+                                   Background="{ui:ThemeResource CardStrokeColorDefaultBrush}" />
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <ui:TextBox Text="{Binding NewJavaVersion, UpdateSourceTrigger=PropertyChanged}"
+                                        PlaceholderText="版本名"
+                                        FontSize="13" />
+
+                            <ui:TextBox Grid.Column="1"
+                                        Text="{Binding NewJavaPath, UpdateSourceTrigger=PropertyChanged}"
+                                        PlaceholderText="java.exe 路径..."
+                                        Margin="8,0" />
+
+                            <ui:Button Grid.Column="2"
+                                       Content="浏览"
+                                       Appearance="Secondary"
+                                       FontSize="12"
+                                       Padding="8,4"
+                                       Command="{Binding BrowseNewJavaPathCommand}" />
+
+                            <ui:Button Grid.Column="3"
+                                       Content="添加"
+                                       Appearance="Primary"
+                                       FontSize="12"
+                                       Padding="8,4"
+                                       Margin="4,0,0,0"
+                                       Command="{Binding AddJavaInterpreterCommand}" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
             </StackPanel>
         </ScrollViewer>
 
-        <!-- 底部按钮栏 -->
+        <!-- 底部保存 -->
         <Border Grid.Row="2"
                 Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
                 BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"

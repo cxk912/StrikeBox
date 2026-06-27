@@ -4,15 +4,22 @@ using StrikeBox.Models;
 using StrikeBox.Services;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 
 namespace StrikeBox.ViewModels;
 
 public sealed partial class EditToolDialogViewModel : ObservableObject
 {
+    private readonly ConfigService _configService;
     private string? _editingToolId;
     private IReadOnlyList<string> _existingCategories = Array.Empty<string>();
 
     public ToolItem? Result { get; private set; }
+
+    public EditToolDialogViewModel(ConfigService configService)
+    {
+        _configService = configService;
+    }
 
     [ObservableProperty]
     private string _dialogTitle = "添加工具";
@@ -39,7 +46,13 @@ public sealed partial class EditToolDialogViewModel : ObservableObject
     private string? _selectedJavaVersion;
 
     [ObservableProperty]
+    private string? _selectedPythonVersion;
+
+    [ObservableProperty]
     private bool _isJavaType;
+
+    [ObservableProperty]
+    private bool _isPythonType;
 
     [ObservableProperty]
     private bool _isWebType;
@@ -51,19 +64,22 @@ public sealed partial class EditToolDialogViewModel : ObservableObject
     private ObservableCollection<string> _categories = new();
 
     [ObservableProperty]
-    private ObservableCollection<string> _javaVersions = new() { "Java8", "Java11", "Java17" };
+    private ObservableCollection<string> _javaVersions = new();
+
+    [ObservableProperty]
+    private ObservableCollection<string> _pythonVersions = new();
 
     [ObservableProperty]
     private ObservableCollection<ToolType> _toolTypes = new(
         Enum.GetValues<ToolType>());
 
-    // 新增分类支持
     [ObservableProperty]
     private string _newCategory = string.Empty;
 
     partial void OnSelectedTypeChanged(ToolType value)
     {
         IsJavaType = value is ToolType.GUIJAVA or ToolType.TerminalJAVA;
+        IsPythonType = value == ToolType.TerminalPYTHON;
         IsWebType = value == ToolType.WEB;
         IsNotWebType = value != ToolType.WEB;
     }
@@ -72,6 +88,14 @@ public sealed partial class EditToolDialogViewModel : ObservableObject
     {
         _existingCategories = existingCategories;
         Categories = new ObservableCollection<string>(existingCategories);
+
+        // 从配置加载可用的解释器版本列表
+        var interpreters = _configService.Settings.Interpreters;
+
+        JavaVersions = new ObservableCollection<string>(
+            interpreters.JavaInterpreters.Select(j => j.Version));
+        PythonVersions = new ObservableCollection<string>(
+            interpreters.PythonInterpreters.Select(p => p.Version));
 
         if (tool == null)
         {
@@ -85,6 +109,7 @@ public sealed partial class EditToolDialogViewModel : ObservableObject
             WorkDir = string.Empty;
             Args = string.Empty;
             SelectedJavaVersion = null;
+            SelectedPythonVersion = null;
         }
         else
         {
@@ -98,6 +123,7 @@ public sealed partial class EditToolDialogViewModel : ObservableObject
             WorkDir = tool.WorkDir;
             Args = tool.Args;
             SelectedJavaVersion = tool.JavaVersion;
+            SelectedPythonVersion = tool.PythonVersion;
         }
     }
 
@@ -119,7 +145,6 @@ public sealed partial class EditToolDialogViewModel : ObservableObject
     [RelayCommand]
     private void BrowseWorkDir()
     {
-        // 使用 OpenFileDialog 选择一个文件，然后取其目录作为工作目录
         var dialog = new Microsoft.Win32.OpenFileDialog
         {
             Title = "选择文件（将使用其所在目录作为工作目录）",
@@ -167,14 +192,15 @@ public sealed partial class EditToolDialogViewModel : ObservableObject
 
         Result = new ToolItem
         {
-            Id = _editingToolId ?? Guid.NewGuid().ToString(),
+            Id = _editingToolId ?? System.Guid.NewGuid().ToString(),
             Name = ToolName.Trim(),
             Category = SelectedCategory,
             Type = SelectedType,
             Path = ToolPath.Trim(),
             WorkDir = WorkDir.Trim(),
             Args = Args.Trim(),
-            JavaVersion = IsJavaType ? SelectedJavaVersion : null
+            JavaVersion = IsJavaType ? SelectedJavaVersion : null,
+            PythonVersion = IsPythonType ? SelectedPythonVersion : null
         };
     }
 

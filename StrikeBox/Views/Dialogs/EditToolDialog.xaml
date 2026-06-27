@@ -83,7 +83,20 @@
                                FontWeight="SemiBold"
                                Margin="0,0,0,4" />
                     <ComboBox ItemsSource="{Binding JavaVersions}"
-                              SelectedItem="{Binding SelectedJavaVersion}" />
+                              SelectedItem="{Binding SelectedJavaVersion}"
+                              IsEditable="False" />
+                </StackPanel>
+
+                <!-- Python 版本（仅 Python 类型显示） -->
+                <StackPanel Visibility="{Binding IsPythonType, Converter={StaticResource BoolToVisibility}}"
+                            Margin="0,0,0,16">
+                    <TextBlock Text="Python 版本 *"
+                               FontSize="13"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,4" />
+                    <ComboBox ItemsSource="{Binding PythonVersions}"
+                              SelectedItem="{Binding SelectedPythonVersion}"
+                              IsEditable="False" />
                 </StackPanel>
 
                 <!-- ── 分隔线 ── -->

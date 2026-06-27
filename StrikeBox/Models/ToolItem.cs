@@ -10,4 +10,5 @@ public sealed class ToolItem
     public string WorkDir { get; set; } = string.Empty;
     public string Args { get; set; } = string.Empty;
     public string? JavaVersion { get; set; }
+    public string? PythonVersion { get; set; }
 }

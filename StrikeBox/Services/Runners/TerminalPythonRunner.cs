@@ -23,7 +23,7 @@ public sealed class TerminalPythonRunner : IToolRunner
         if (!File.Exists(tool.Path))
             throw new FileNotFoundException($"工具文件不存在，请检查路径: {tool.Path}");
 
-        var pythonPath = _configService.Settings.Interpreters.Python;
+        var pythonPath = _configService.Settings.Interpreters.GetPythonPath(tool.PythonVersion);
         if (string.IsNullOrWhiteSpace(pythonPath) || !File.Exists(pythonPath))
             throw new InvalidOperationException("请先在设置中配置 Python 路径");
 

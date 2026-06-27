@@ -39,6 +39,8 @@ x86/
 # Publish & Installer
 publish/
 *_Setup_*.exe
+*_Setup_*.zip
+*_Portable_*.zip
 
 # OS
 .DS_Store
