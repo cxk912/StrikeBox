@@ -49,6 +49,62 @@ dotnet run --project StrikeBox/StrikeBox.csproj
 
 或使用 Visual Studio 2022+ 打开 `StrikeBox.sln`。
 
+## 配置文件
+
+所有工具数据和设置保存在：
+
+```
+%AppData%\StrikeBox\config.json
+```
+
+如需重置为默认配置，删除 `StrikeBox` 文件夹后重新启动应用即可。
+
 ## 免责声明
 
 本项目仅供**学习交流**使用，不得用于任何非法用途。使用者应遵守所在地法律法规，任何因滥用本工具造成的后果由使用者自行承担，与作者无关。
+
+---
+
+# English
+
+StrikeBox is a launcher panel for organizing security tools — browse by category, quick search, one-click launch.
+
+## Features
+
+- **Tool Management** — Add / edit / delete tools, custom categories, search & filter
+- **Multi-Type Launch** — GUI EXE, GUI Java, Terminal EXE, Terminal Python, Terminal Java, Web link
+- **Interpreter Config** — Centralized Python, Java 8/11/17 path settings
+- **Dark / Light Theme** — One-click toggle with Mica backdrop
+- **Data Persistence** — JSON config auto-saved in AppData
+
+## Configuration
+
+All tool data and settings are stored in:
+
+```
+%AppData%\StrikeBox\config.json
+```
+
+Delete the `StrikeBox` folder and restart the app to reset to defaults.
+
+## Tech Stack
+
+| Component | Description |
+|-----------|-------------|
+| .NET 8 | WPF Desktop App |
+| [WPF-UI](https://github.com/lepoco/wpfui) | Fluent Design Modern UI |
+| [CommunityToolkit.Mvvm](https://github.com/CommunityToolkit/dotnet) | MVVM Framework |
+| Microsoft.Extensions.DI | Dependency Injection |
+
+## Build
+
+```bash
+dotnet build
+dotnet run --project StrikeBox/StrikeBox.csproj
+```
+
+Or open `StrikeBox.sln` with Visual Studio 2022+.
+
+## Disclaimer
+
+This project is for **educational purposes only**. Users must comply with local laws and regulations. The author is not responsible for any misuse.
