@@ -9,6 +9,7 @@
     <Version>1.0.0</Version>
     <RootNamespace>StrikeBox</RootNamespace>
     <AssemblyName>StrikeBox</AssemblyName>
+    <ApplicationIcon>Assets\StrikeBox.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
