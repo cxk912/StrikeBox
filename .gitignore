@@ -36,6 +36,10 @@ x86/
 [Tt]est[Rr]esults/
 [Rr]esults/
 
+# Publish & Installer
+publish/
+*_Setup_*.exe
+
 # OS
 .DS_Store
 Thumbs.db
