@@ -1,5 +1,7 @@
 using StrikeBox.ViewModels;
+using System;
 using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace StrikeBox;
 
@@ -9,6 +11,16 @@ public partial class MainWindow : Wpf.Ui.Controls.FluentWindow
     {
         InitializeComponent();
         DataContext = viewModel;
+
+        // 加载窗口图标
+        try
+        {
+            Icon = BitmapFrame.Create(new Uri("pack://application:,,,/Assets/StrikeBox.ico"));
+        }
+        catch
+        {
+            // 图标加载失败不影响启动
+        }
 
         ApplyAdaptiveSize();
     }

@@ -13,6 +13,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\StrikeBox.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="WPF-UI" Version="4.3.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
