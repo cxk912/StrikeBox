@@ -48,3 +48,7 @@ dotnet run --project StrikeBox/StrikeBox.csproj
 ```
 
 或使用 Visual Studio 2022+ 打开 `StrikeBox.sln`。
+
+## 免责声明
+
+本项目仅供**学习交流**使用，不得用于任何非法用途。使用者应遵守所在地法律法规，任何因滥用本工具造成的后果由使用者自行承担，与作者无关。
