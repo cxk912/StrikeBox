@@ -1,0 +1,87 @@
+<UserControl x:Class="StrikeBox.Views.CategoryManagerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="800">
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- 标题栏 -->
+        <Border Grid.Row="0"
+                Padding="16,12"
+                Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
+                CornerRadius="8"
+                Margin="0,0,0,16">
+            <TextBlock Text="分类管理"
+                       FontSize="20"
+                       FontWeight="SemiBold"
+                       VerticalAlignment="Center" />
+        </Border>
+
+        <!-- 新增分类 -->
+        <Border Grid.Row="1"
+                Padding="16,12"
+                Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
+                CornerRadius="8"
+                Margin="0,0,0,16">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <ui:TextBox Text="{Binding NewCategory, UpdateSourceTrigger=PropertyChanged}"
+                            PlaceholderText="输入新分类名称..." />
+
+                <ui:Button Grid.Column="1"
+                           Content="添加分类"
+                           Appearance="Primary"
+                           Margin="8,0,0,0"
+                           Icon="{ui:SymbolIcon Add16}"
+                           Command="{Binding AddCategoryCommand}" />
+            </Grid>
+        </Border>
+
+        <!-- 分类列表 -->
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Hidden">
+            <ItemsControl ItemsSource="{Binding Categories}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="0,0,0,8"
+                                Padding="12,10"
+                                Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                CornerRadius="6">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="{Binding}"
+                                           FontSize="14"
+                                           VerticalAlignment="Center" />
+
+                                <ui:Button Grid.Column="1"
+                                           Content="删除"
+                                           Appearance="Danger"
+                                           FontSize="12"
+                                           Padding="8,4"
+                                           Command="{Binding DataContext.RemoveCategoryCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                           CommandParameter="{Binding}" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+
+</UserControl>

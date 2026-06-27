@@ -1,0 +1,38 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
+
+    <!-- 工具卡片样式 -->
+    <Style x:Key="ToolCardStyle" TargetType="Border">
+        <Setter Property="Width" Value="180" />
+        <Setter Property="Height" Value="100" />
+        <Setter Property="Background" Value="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}" />
+        <Setter Property="BorderBrush" Value="{ui:ThemeResource CardStrokeColorDefaultBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="10" />
+        <Setter Property="Margin" Value="6" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="ToolTip" Value="双击运行工具" />
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{ui:ThemeResource CardBackgroundFillColorSecondaryBrush}" />
+                <Setter Property="BorderBrush" Value="{ui:ThemeResource SystemAccentColorPrimaryBrush}" />
+                <Setter Property="BorderThickness" Value="1.5" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- 工具名称文本（居中） -->
+    <Style x:Key="ToolCardNameStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{ui:ThemeResource TextFillColorPrimaryBrush}" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Setter Property="TextWrapping" Value="NoWrap" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="8,0" />
+    </Style>
+
+</ResourceDictionary>
